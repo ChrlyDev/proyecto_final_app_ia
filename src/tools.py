@@ -264,7 +264,7 @@ class CajaDeHerramientas:
                              fecha_pago: str | None = None) -> dict:
         """Calcula el valor en PESOS (año 2026) de la multa de una infracción de tránsito y el descuento por pago oportuno, a partir de la tabla oficial de autoliquidación. Ejecuta un cálculo y una consulta exacta que NO debes hacer de memoria.
 
-        Úsala cuando pregunten cuánto cuesta o cuánto se paga por una infracción, o cuánto se paga si se paga en cierta fecha. Si dan la fecha del comparendo y la fecha de pago, calcula los días hábiles transcurridos (con festivos de Colombia) y aplica el 50 % (días hábiles 1 a 5) o el 75 % (días 6 a 20). Si no dan fechas, devuelve los tres valores posibles.
+        Úsala cuando pidan el valor en PESOS o cuánto se paga por una infracción, o cuánto se paga si se paga en cierta fecha. Si solo preguntan con cuántos salarios mínimos (SMLDV) se sanciona, eso lo dice la ley: usa buscar_en_base. Si dan la fecha del comparendo y la fecha de pago, calcula los días hábiles transcurridos (con festivos de Colombia) y aplica el 50 % (días hábiles 1 a 5) o el 75 % (días 6 a 20). Si no dan fechas, devuelve los tres valores posibles.
         """
         texto = (infraccion or "").strip()
         if re.search(r"embriaguez|alcohol|alcoholemia", _norm(texto)):

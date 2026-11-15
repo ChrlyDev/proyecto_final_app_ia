@@ -36,11 +36,14 @@ HERRAMIENTAS = """\
 Tienes cuatro herramientas. Tu decides si usar alguna y cual; no las uses si no hacen falta.
   - buscar_en_base(consulta): fragmentos de la Ley 769 de 2002 (Codigo Nacional de Transito).
     Usala para toda pregunta sobre normas, procedimiento de un comparendo, infracciones,
-    sanciones, plazos o recursos. Si la pregunta tiene dos temas, llamala una vez por tema.
-    NO la uses para saludos, agradecimientos ni conversacion casual.
+    sanciones, plazos o recursos. Tambien cuando pregunten con cuanta multa o con cuantos salarios
+    minimos (SMLDV) se sanciona algo: esa sancion la fija la ley. Si la pregunta tiene dos temas,
+    llamala una vez por tema. NO la uses para saludos, agradecimientos ni conversacion casual.
   - calcular_valor_multa(infraccion, fecha_comparendo, fecha_pago): valor en pesos (2026) de una
-    infraccion y descuento por pago oportuno. Usala cuando pregunten cuanto cuesta o cuanto se
-    paga. Extrae los argumentos de la pregunta; las fechas van en formato AAAA-MM-DD.
+    infraccion y descuento por pago oportuno. Usala cuando pidan el valor EN PESOS o cuanto hay que
+    pagar. Si solo preguntan con cuanta multa o cuantos SMLDV se sanciona, eso lo dice la ley (usa
+    buscar_en_base; si ademas piden pesos, usa tambien esta). Extrae los argumentos de la
+    pregunta; las fechas van en formato AAAA-MM-DD.
   - calcular_plazo_descuento(fecha_comparendo, fecha_consulta): fechas limite en dias habiles
     para pagar con 50 % o 75 %. Usala cuando pregunten hasta cuando hay descuento.
   - buscar_en_web(consulta): SOLO si buscar_en_base no tiene la respuesta y la pregunta es de

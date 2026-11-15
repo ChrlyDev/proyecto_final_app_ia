@@ -13,6 +13,7 @@ Lo importante:
   * Un saludo se responde sin tools porque el prompt le dice al modelo cuando NO usarlas.
 """
 
+import json
 import re
 import time
 from dataclasses import dataclass, field
@@ -106,9 +107,18 @@ class RespuestaAgente:
 
     @property
     def contextos(self) -> list[str]:
-        """Lo que devolvieron las tools de busqueda: son los `retrieved_contexts` para Ragas."""
+        """Lo que devolvieron las tools (base, web y calculos): son los `retrieved_contexts` para Ragas.
+
+        Los calculos cuentan como contexto porque son la evidencia de la que sale la respuesta
+        (un valor en pesos no esta en ningun fragmento de la ley, solo en la tabla de la tool)."""
+        calculos = []
+        for c in self.llamadas_tools:
+            if c.nombre in ("calcular_valor_multa", "calcular_plazo_descuento") and not c.error:
+                util = {k: v for k, v in c.resultado.items() if k not in ("nota", "origen", "alternativas")}
+                calculos.append(f"[cálculo: {c.resultado.get('fuente', 'tabla de autoliquidación 2026')}] "
+                                + json.dumps(util, ensure_ascii=False)[:1500])
         return ([f"[{f['cita']}] {f['texto']}" for f in self.fuentes_base]
-                + [f"[web: {r['url']}] {r['titulo']}. {r['extracto']}" for r in self.fuentes_web])
+                + [f"[web: {r['url']}] {r['titulo']}. {r['extracto']}" for r in self.fuentes_web] + calculos)
 
 
 class AgenteMultaClara:
