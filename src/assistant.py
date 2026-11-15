@@ -74,6 +74,8 @@ class MultaClaraAssistant:
         # El contexto recuperado solo se envia en el turno actual para que
         # el prompt no crezca con fragmentos obsoletos.
         self._turnos: list[tuple[str, str]] = []
+        # Uso de la ultima consulta (llamadas al LLM y tokens); lo lee la comparacion de costo del Avance 3.
+        self.ultimo_uso: dict[str, int] = {}
 
     def reiniciar(self) -> None:
         self._turnos.clear()
@@ -117,6 +119,13 @@ class MultaClaraAssistant:
         except Exception as exc:  # errores de red/API del SDK
             raise AssistantError(f"No fue posible contactar al modelo: {exc}") from exc
 
+        uso = respuesta.usage_metadata
+        self.ultimo_uso = {
+            "llamadas_llm": 1,
+            "tokens_entrada": (uso.prompt_token_count or 0) if uso else 0,
+            "tokens_salida": (uso.candidates_token_count or 0) if uso else 0,
+            "tokens_total": (uso.total_token_count or 0) if uso else 0,
+        }
         veredicto = respuesta.parsed
         if veredicto is None:
             raise AssistantError("El modelo no devolvio un JSON valido segun el esquema esperado.")

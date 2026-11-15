@@ -1,0 +1,13 @@
+
+Pregunta: ¿Qué ha dispuesto el Ministerio de Transporte en su resolución más reciente sobre los vehículos de micromovilidad, como las patinetas eléctricas?
+Herramientas usadas:
+  1. buscar_en_base({"consulta": "vehiculos de micromovilidad patinetas electricas ministerio de transporte"})  ->  5 fragmentos: Ley 769 de 2002, Art. 106; Ley 769 de 2002, Art. 2; Ley 769 de 2002, Art. 2; Ley 769 de 2002, Art. 46; Ley 769 de 2002, Art. 2
+  2. buscar_en_web({"consulta": "Ministerio de Transporte resolucion patinetas electricas micromovilidad"})  ->  3 resultados web
+
+Respuesta:
+Desde la base normativa, se establece que las patinetas y bicicletas eléctricas o a gasolina no podrán sobrepasar los 40 km/h (Fuente: Ley 769 de 2002, Art. 106).
+
+Desde la web (sitios oficiales):
+El Ministerio de Transporte ha avanzado en la publicación de proyectos de resolución (como el de julio de 2026) para establecer por primera vez en Colombia reglas específicas de circulación y condiciones de seguridad para vehículos eléctricos livianos de movilidad personal urbana, tales como patinetas y scooters eléctricos [web: https://mintransporte.gov.co/publicaciones/12377/mintransporte-pone-reglas-a-la-micromovilidad-en-colombia-publica-reglamentacion-para-patinetas-y-scooters-electricos].
+
+[llamadas al LLM: 3 | tokens: 12451 | tiempo: 4.5 s]

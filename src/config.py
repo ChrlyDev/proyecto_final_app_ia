@@ -38,6 +38,13 @@ class AppConfig:
     min_score: float = 0.0
     # Turnos previos (usuario+modelo) que se reenvian al LLM en conversaciones.
     max_turnos_historial: int = 6
+    # --- Agente (Avance 3) ---
+    # Tope de rondas de uso de tools por pregunta (el programa corta el bucle, no el modelo).
+    agente_max_iteraciones: int = 5
+    # Clave del buscador web (Tavily). Vacia = la tool de web responde que no esta configurada.
+    tavily_api_key: str = ""
+    # Archivo donde se registra el uso de tools (una linea JSON por pregunta).
+    agente_log: str = "logs/uso_tools.jsonl"
 
     @classmethod
     def from_env(cls, require_api_key: bool = True) -> "AppConfig":
@@ -64,4 +71,7 @@ class AppConfig:
             repetir_cabecera_grupos=os.getenv("RAG_CABECERA_GRUPOS", "1") != "0",
             min_score=float(os.getenv("RAG_MIN_SCORE", "0.0")),
             max_turnos_historial=int(os.getenv("RAG_MAX_TURNOS", "6")),
+            agente_max_iteraciones=int(os.getenv("AGENT_MAX_ITER", "5")),
+            tavily_api_key=os.getenv("TAVILY_API_KEY", ""),
+            agente_log=os.getenv("AGENT_LOG", "logs/uso_tools.jsonl"),
         )

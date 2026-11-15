@@ -1,0 +1,162 @@
+{
+  "1": {
+    "id": 1,
+    "segundos": 2.469,
+    "llamadas_llm": 1,
+    "tokens_entrada": 4060,
+    "tokens_salida": 344,
+    "tokens_total": 4404
+  },
+  "2": {
+    "id": 2,
+    "segundos": 1.668,
+    "llamadas_llm": 1,
+    "tokens_entrada": 4144,
+    "tokens_salida": 272,
+    "tokens_total": 4416
+  },
+  "3": {
+    "id": 3,
+    "segundos": 1.549,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3872,
+    "tokens_salida": 270,
+    "tokens_total": 4142
+  },
+  "4": {
+    "id": 4,
+    "segundos": 1.573,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3692,
+    "tokens_salida": 250,
+    "tokens_total": 3942
+  },
+  "5": {
+    "id": 5,
+    "segundos": 2.301,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3769,
+    "tokens_salida": 252,
+    "tokens_total": 4021
+  },
+  "6": {
+    "id": 6,
+    "segundos": 1.584,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3698,
+    "tokens_salida": 278,
+    "tokens_total": 3976
+  },
+  "7": {
+    "id": 7,
+    "segundos": 1.658,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3768,
+    "tokens_salida": 252,
+    "tokens_total": 4020
+  },
+  "8": {
+    "id": 8,
+    "segundos": 1.62,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3439,
+    "tokens_salida": 298,
+    "tokens_total": 3737
+  },
+  "9": {
+    "id": 9,
+    "segundos": 1.533,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3605,
+    "tokens_salida": 248,
+    "tokens_total": 3853
+  },
+  "10": {
+    "id": 10,
+    "segundos": 1.689,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3593,
+    "tokens_salida": 298,
+    "tokens_total": 3891
+  },
+  "11": {
+    "id": 11,
+    "segundos": 1.753,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3609,
+    "tokens_salida": 202,
+    "tokens_total": 3811
+  },
+  "12": {
+    "id": 12,
+    "segundos": 1.464,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3641,
+    "tokens_salida": 242,
+    "tokens_total": 3883
+  },
+  "13": {
+    "id": 13,
+    "segundos": 2.181,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3436,
+    "tokens_salida": 265,
+    "tokens_total": 3701
+  },
+  "14": {
+    "id": 14,
+    "segundos": 1.808,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3896,
+    "tokens_salida": 239,
+    "tokens_total": 4135
+  },
+  "15": {
+    "id": 15,
+    "segundos": 1.881,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3747,
+    "tokens_salida": 280,
+    "tokens_total": 4027
+  },
+  "16": {
+    "id": 16,
+    "segundos": 1.848,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3313,
+    "tokens_salida": 289,
+    "tokens_total": 3602
+  },
+  "17": {
+    "id": 17,
+    "segundos": 1.65,
+    "llamadas_llm": 1,
+    "tokens_entrada": 4161,
+    "tokens_salida": 346,
+    "tokens_total": 4507
+  },
+  "18": {
+    "id": 18,
+    "segundos": 1.46,
+    "llamadas_llm": 1,
+    "tokens_entrada": 4165,
+    "tokens_salida": 245,
+    "tokens_total": 4410
+  },
+  "19": {
+    "id": 19,
+    "segundos": 1.59,
+    "llamadas_llm": 1,
+    "tokens_entrada": 3711,
+    "tokens_salida": 213,
+    "tokens_total": 3924
+  },
+  "20": {
+    "id": 20,
+    "segundos": 1.767,
+    "llamadas_llm": 1,
+    "tokens_entrada": 4015,
+    "tokens_salida": 205,
+    "tokens_total": 4220
+  }
+}

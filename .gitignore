@@ -8,3 +8,6 @@ notas_personales/
 
 # Secretos de Streamlit (nunca se suben)
 .streamlit/secrets.toml
+
+# Registro local de uso de tools
+logs/
