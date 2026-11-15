@@ -36,6 +36,8 @@ def _obtenido() -> dict:
         resp = (resp[:130].rsplit(" ", 1)[0] + "…") if len(resp) > 130 else resp
         fallas = [v["detalle"] for v in c["verificaciones"] if not v["ok"]]
         salida[k] = f"{tools}. «{resp}»" + (f" ✗ {'; '.join(fallas)}" if fallas else " ✓ verificaciones automáticas OK")
+        if k == "9":  # cumple sin haber usado la web: se dice para no dar a entender que se probo la redaccion aqui
+            salida[k] += " (no necesitó la web: respondió con la base; la ruta de privacidad se ejercita en el caso 10)"
     return salida
 
 
@@ -65,6 +67,7 @@ TEXTOS = {
         "La respuesta separa «Desde la base normativa» (Art. 106, patinetas hasta 40 km/h) de «Desde la web (sitios oficiales)» y marca [web: URL]. "
         "Límite a tener en cuenta: la tool solo entrega extractos de hasta 300 caracteres, así que la respuesta resume lo que dicen los extractos y no el texto completo de la resolución.")},
     "analisis_ragas": (
+        "MÉTRICAS DE CONTROL (no están en la tabla): hit_articulo 1,000 → 1,000; rechazo_correcto 0,75 → 0,50 (explicado abajo).\n"
         "MEJORÓ: answer_relevancy (+0,026: las respuestas del agente son más directas) y faithfulness (+0,007). EMPEORÓ levemente context_precision (−0,002) y context_recall quedó igual (1,000); "
         "todas esas diferencias están dentro del ruido (16 preguntas del corpus, juez no determinista), y es lo esperable: para las preguntas que la base responde, el agente hace lo mismo que el pipeline (una búsqueda y una respuesta).\n"
         "COMPONENTE: el agente formula su propia consulta a la base. Eso mejoró la precisión en las preguntas 1, 7 y 16 y la empeoró en la 8 (1,00→0,50) y la 11, con efecto neto nulo. Además, el texto evaluado en el Avance 2 era solo fundamento + hallazgos, "

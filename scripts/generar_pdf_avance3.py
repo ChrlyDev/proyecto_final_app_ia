@@ -96,8 +96,22 @@ def imagen_ancha(fila, nombre, ancho_cm: float = 15.8, ruta: Path | None = None)
             r.font.size, r.bold, r.font.color.rgb = Pt(9), True, ROJO
 
 
+def permitir_corte_de_filas(tabla) -> None:
+    """Quita 'no dividir la fila entre paginas': una fila muy larga (el prompt) saltaba entera y dejaba una pagina casi vacia."""
+    for fila in tabla.rows:
+        trPr = fila._tr.trPr
+        if trPr is not None:
+            for e in trPr.findall("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}cantSplit"):
+                trPr.remove(e)
+
+
 def preparar_plantilla(d) -> None:
     """Titulo de entrega y retiro de los textos de instrucciones (cursiva) de la plantilla."""
+    for sec in d.sections:  # el pie de pagina de la plantilla dice "Plantilla de entrega"
+        for p in sec.footer.paragraphs:
+            for r in p.runs:
+                if "Plantilla de entrega" in r.text:
+                    r.text = r.text.replace("Plantilla de entrega", "Entrega del agente MultaClara")
     for p in list(d.paragraphs):
         if p.style.name == "Title":
             for r in p.runs[1:]:
@@ -224,6 +238,7 @@ def construir(textos: dict) -> None:
         escribir(T[4].rows[3].cells[1], "[PENDIENTE: ejecutar las evaluaciones]", color=ROJO)
 
     # --- 2. prompt
+    permitir_corte_de_filas(T[5])
     escribir(T[5].rows[0].cells[1], construir_system_prompt(date(2026, 11, 14)), tam=6.5, mono=True)
     escribir(T[5].rows[1].cells[1], textos["cambios_prompt"], tam=8.5)
 
