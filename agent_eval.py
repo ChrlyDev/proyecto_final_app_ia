@@ -49,17 +49,24 @@ def _num_articulo(cita: str) -> str:
     return m.group(1) if m else ""
 
 
+def clasificar(texto: str, herramientas: list) -> str:
+    """'fuera_de_alcance' si el agente rechazo o dijo que no hay informacion, o si respondio SIN tools ni
+    fuentes (una pregunta de transito siempre lleva al menos una consulta y una cita)."""
+    rechazo = bool(_RE_RECHAZO.search(texto)) or RESPUESTA_SIN_INFORMACION[:40] in texto
+    sin_nada = not herramientas and "fuente" not in texto.lower()
+    return "fuera_de_alcance" if (rechazo or sin_nada) else "consulta_general"
+
+
 def registro_ragas(item: dict, r: RespuestaAgente) -> dict:
     """Formato compatible con ragas_eval (mismos campos que el pipeline del Avance 2)."""
     recuperados = sorted({_num_articulo(f["cita"]) for f in r.fuentes_base} - {""})
     citados = {m.group(1) for m in _RE_CITA.finditer(r.texto)
                if not _RE_NOTA.search(r.texto[max(0, m.start() - 40): m.start()])}
     sin_respaldo = sorted(citados - set(recuperados), key=int)
-    rechazo = bool(_RE_RECHAZO.search(r.texto)) or RESPUESTA_SIN_INFORMACION[:40] in r.texto
     return {
         "id": item["id"], "tipo": item["tipo"], "pregunta": item["pregunta"], "ground_truth": item["ground_truth"],
         "articulos_esperados": item.get("articulos", []), "respuesta": r.texto,
-        "clasificacion": "fuera_de_alcance" if rechazo else "consulta_general",
+        "clasificacion": clasificar(r.texto, r.llamadas_tools),
         "contextos": r.contextos, "articulos_recuperados": recuperados, "citas_no_respaldadas": sin_respaldo,
         "veredicto": {"fundamento": r.texto, "hallazgos": []},
         "herramientas": [{"nombre": c.nombre, "argumentos": c.argumentos, "resumen": c.resumen} for c in r.llamadas_tools],
@@ -101,6 +108,9 @@ def modo_ragas(config: AppConfig, args) -> None:
             print(f"      tools: {r.herramientas_usadas or '(ninguna)'} | llamadas LLM: {r.llamadas_llm}")
             time.sleep(args.pausa)
     registros = [cache[str(i["id"])] for i in dataset if str(i["id"]) in cache]
+    for reg in registros:  # criterio de clasificacion vigente, tambien para respuestas ya guardadas
+        reg["clasificacion"] = clasificar(reg["respuesta"], reg["herramientas"])
+    R.guardar_json(ruta, {str(r["id"]): r for r in registros})
     if args.solo_generar:
         return
     ragas = R.evaluar_con_ragas(config, registros, args.tag, args.juez or config.model, args.rpm_juez, args.lote) \
@@ -179,7 +189,8 @@ def modo_casos(config: AppConfig, args) -> None:
     registro = RegistroUsoTools(R.RUNS / "casos_uso_tools.jsonl")
     corpus = _corpus(agente)
     for caso in casos:
-        if str(caso["id"]) in cache and not args.rehacer:
+        elegido = args.ids and str(caso["id"]) in args.ids.split(",")
+        if str(caso["id"]) in cache and not args.rehacer and not elegido:
             continue
         print(f"[caso {caso['id']}] {caso['tipo']}: {caso['pregunta'][:70]}")
         agente.reiniciar()
@@ -262,6 +273,7 @@ def main() -> None:
     r.add_argument("--pausa", type=float, default=3)
     c = sub.add_parser("casos")
     c.add_argument("--rehacer", action="store_true")
+    c.add_argument("--ids", help="repetir solo estos casos (ej. 5,9)")
     c.add_argument("--pausa", type=float, default=3)
     k = sub.add_parser("costo")
     k.add_argument("--tag-agente", default="agente")
