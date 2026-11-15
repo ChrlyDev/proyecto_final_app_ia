@@ -28,9 +28,11 @@ def _fuente(tam: int):
 def renderizar(texto: str, destino: str | Path, comando: str = "", ancho_car: int = 105, tam: int = 16) -> None:
     fuente = _fuente(tam)
     lineas: list[str] = []
+    n_cmd = 0
     if comando:
-        lineas.append("PS> " + comando)
-        lineas.append("")
+        cmd = textwrap.wrap("PS> " + comando, ancho_car, subsequent_indent="    ", break_long_words=True)
+        lineas += cmd + [""]
+        n_cmd = len(cmd)
     for linea in texto.replace("\t", "    ").splitlines():
         lineas += textwrap.wrap(linea, ancho_car, subsequent_indent="    ", break_long_words=True) or [""]
     caja = fuente.getbbox("M")
@@ -44,7 +46,7 @@ def renderizar(texto: str, destino: str | Path, comando: str = "", ancho_car: in
     d.text((80, 6), "Terminal — MultaClara", font=_fuente(14), fill=(200, 200, 200))
     y = barra + margen
     for i, linea in enumerate(lineas):
-        d.text((margen, y), linea, font=fuente, fill=COMANDO if (comando and i == 0) else TEXTO)
+        d.text((margen, y), linea, font=fuente, fill=COMANDO if i < n_cmd else TEXTO)
         y += alto_l
     Path(destino).parent.mkdir(parents=True, exist_ok=True)
     img.save(destino)

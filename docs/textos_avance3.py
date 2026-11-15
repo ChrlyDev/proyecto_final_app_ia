@@ -60,7 +60,10 @@ TEXTOS = {
     "ejec_tarea": {**_leer("ejec_tarea"), "analisis": (
         "Sí. Usó calcular_plazo_descuento y extrajo de la pregunta fecha_comparendo=2026-04-10 (el programa añadió la fecha de hoy). Respondió viernes 17 de abril de 2026 (50 %) y "
         "lunes 11 de mayo de 2026 (75 %), descontando el festivo del 1 de mayo, sin calcular de memoria; además advirtió que, a la fecha de hoy, esos plazos ya vencieron.")},
-    "ejec_web": {**_leer("ejec_web"), "analisis": "[completar con la corrida real de búsqueda web]"},
+    "ejec_web": {**_leer("ejec_web"), "analisis": (
+        "Sí. Siguió la política «primero la base»: llamó buscar_en_base y, como la ley no trae resoluciones recientes, llamó buscar_en_web (3 resultados, todos de mintransporte.gov.co, sitio permitido). "
+        "La respuesta separa «Desde la base normativa» (Art. 106, patinetas hasta 40 km/h) de «Desde la web (sitios oficiales)» y marca [web: URL]. "
+        "Límite a tener en cuenta: la tool solo entrega extractos de hasta 300 caracteres, así que la respuesta resume lo que dicen los extractos y no el texto completo de la resolución.")},
     "analisis_ragas": (
         "MEJORÓ: answer_relevancy (+0,026: las respuestas del agente son más directas) y faithfulness (+0,007). EMPEORÓ levemente context_precision (−0,002) y context_recall quedó igual (1,000); "
         "todas esas diferencias están dentro del ruido (16 preguntas del corpus, juez no determinista), y es lo esperable: para las preguntas que la base responde, el agente hace lo mismo que el pipeline (una búsqueda y una respuesta).\n"
