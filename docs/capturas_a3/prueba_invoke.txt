@@ -1,0 +1,48 @@
+>>> tools['buscar_en_base'].invoke({'consulta': 'plazo de caducidad de la acción por una contravención'})
+origen = 'base' | fragmentos devueltos = 5 (límite de código: 5)
+  - documento='Ley 769 de 2002' | sección='Art. 161' | similitud=0.768 | 1190 car. (límite 1500) | 'ARTÍCULO 161. CADUCIDAD. La acción por contravención de las '...
+  - documento='Ley 769 de 2002' | sección='Art. 159' | similitud=0.72 | 700 car. (límite 1500) | 'ARTÍCULO 159. CUMPLIMIENTO. Modificado por el art. 26, Ley 1'...
+  - documento='Ley 769 de 2002' | sección='Art. 161' | similitud=0.687 | 209 car. (límite 1500) | 'descuentos establecidos en la ley o la realización de la aud'...
+  - documento='Ley 769 de 2002' | sección='Art. 135' | similitud=0.68 | 1067 car. (límite 1500) | 'ARTÍCULO 135. PROCEDIMIENTO. Modificado por el art. 22, Ley '...
+  - documento='Ley 769 de 2002' | sección='Art. 122' | similitud=0.676 | 1117 car. (límite 1500) | 'Cuando quiera que se infrinjan las prohibiciones, restriccio'...
+
+>>> tools['calcular_valor_multa'].invoke({'infraccion': 'no usar el cinturón de seguridad', 'fecha_comparendo': '2026-03-02', 'fecha_pago': '2026-03-06'})
+{
+  "infraccion": {
+    "codigo": "C06",
+    "uvb": 52.29,
+    "valor_completo_pesos": 633200
+  },
+  "calculo": {
+    "fecha_comparendo": "2026-03-02",
+    "fecha_pago": "2026-03-06",
+    "dias_habiles_transcurridos": 4,
+    "ventana": "días hábiles 1 a 5 (se paga el 50 %)",
+    "valor_a_pagar_pesos": 316600,
+    "regla": "Se cuentan días hábiles (lunes a viernes sin festivos de Colombia) desde el día hábil siguiente al comparendo."
+  }
+}
+
+>>> tools['calcular_plazo_descuento'].invoke({'fecha_comparendo': '2026-04-10', 'fecha_consulta': '2026-04-20'})
+{
+  "descuento_50_hasta": {
+    "fecha": "2026-04-17",
+    "texto": "viernes 17 de abril de 2026",
+    "dia_habil": 5,
+    "paga": "50 % del valor"
+  },
+  "descuento_75_hasta": {
+    "fecha": "2026-05-11",
+    "texto": "lunes 11 de mayo de 2026",
+    "dia_habil": 20,
+    "paga": "75 % del valor"
+  },
+  "festivos_en_el_rango": [
+    "2026-05-01 (Día del Trabajo)"
+  ],
+  "a_la_fecha": {
+    "fecha": "2026-04-20",
+    "dias_habiles_transcurridos": 6,
+    "estado": "aún aplica el 75 %"
+  }
+}

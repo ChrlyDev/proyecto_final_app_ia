@@ -1,0 +1,8 @@
+
+Pregunta: Hola, buenas tardes. ¿Cómo estás?
+Herramientas usadas: (ninguna)
+
+Respuesta:
+¡Hola! Buenas tardes. Estoy muy bien, gracias por preguntar. ¿En qué puedo ayudarte hoy con temas de tránsito en Colombia?
+
+[llamadas al LLM: 1 | tokens: 2780 | tiempo: 1.6 s]

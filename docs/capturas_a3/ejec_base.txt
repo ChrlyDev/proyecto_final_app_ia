@@ -1,0 +1,14 @@
+
+Pregunta: ¿Qué recursos se pueden presentar contra las decisiones del proceso de tránsito y cómo se interponen?
+Herramientas usadas:
+  1. buscar_en_base({"consulta": "recursos que proceden contra las decisiones comparendo transito"})  ->  5 fragmentos: Ley 769 de 2002, Art. 161; Ley 769 de 2002, Art. 136; Ley 769 de 2002, Art. 142; Ley 769 de 2002, Art. 136; Ley 769 de 2002, Art. 135
+
+Respuesta:
+Contra las decisiones dictadas dentro del proceso de tránsito proceden los siguientes recursos:
+
+* **Recurso de reposición:** Procede contra los autos ante el mismo funcionario y debe interponerse y sustentarse de forma oral en la propia audiencia en la que se pronuncie la providencia (Fuente: Ley 769 de 2002, Art. 142).
+* **Recurso de apelación:** Procede únicamente contra las resoluciones que pongan fin a la primera instancia. Debe interponerse oralmente y sustentarse en la misma audiencia en que se profiera (Fuente: Ley 769 de 2002, Art. 142).
+
+Toda providencia queda en firme cuando, vencido el término de su ejecutoria, no se ha interpuesto recurso alguno o este ha sido negado (Fuente: Ley 769 de 2002, Art. 142).
+
+[llamadas al LLM: 2 | tokens: 7539 | tiempo: 3.6 s]

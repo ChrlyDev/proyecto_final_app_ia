@@ -80,6 +80,31 @@ def imagen(celda, nombre: str, ancho_cm: float = 11.0, ruta: Path | None = None)
         r.font.size, r.bold, r.font.color.rgb = Pt(9), True, ROJO
 
 
+def imagen_ancha(fila, nombre: str, ancho_cm: float = 15.8, ruta: Path | None = None) -> None:
+    """Combina las dos celdas de la fila para usar todo el ancho: etiqueta arriba e imagen debajo."""
+    etiqueta = fila.cells[0].text.strip()
+    celda = fila.cells[0].merge(fila.cells[1])
+    escribir(celda, etiqueta, tam=9, negrita=True)
+    p = celda.add_paragraph()
+    destino = ruta or (CAPT / nombre)
+    if destino.exists():
+        p.add_run().add_picture(str(destino), width=Cm(ancho_cm))
+    else:
+        r = p.add_run(f"[CAPTURA PENDIENTE: {nombre}]")
+        r.font.size, r.bold, r.font.color.rgb = Pt(9), True, ROJO
+
+
+def preparar_plantilla(d) -> None:
+    """Titulo de entrega y retiro de los textos de instrucciones (cursiva) de la plantilla."""
+    for p in list(d.paragraphs):
+        if p.style.name == "Title":
+            for r in p.runs[1:]:
+                r._element.getparent().remove(r._element)
+            p.runs[0].text = "Avance 3: Entrega del agente MultaClara"
+        elif p.runs and all(r.italic for r in p.runs if r.text.strip()) and p.text.strip():
+            p._element.getparent().remove(p._element)
+
+
 def asegurar_filas(tabla, n_filas: int) -> None:
     """Agrega filas (copiando el formato de la ultima) hasta tener `n_filas` en total."""
     while len(tabla.rows) < n_filas:
@@ -128,6 +153,7 @@ def promedio(xs):
 # ---------------------------------------------------------------------------
 def construir(textos: dict) -> None:
     d = Document(str(PLANTILLA))
+    preparar_plantilla(d)
     T = d.tables
     class _R:  # retriever de mentira: solo para leer las descripciones de las tools
         pass
@@ -140,7 +166,7 @@ def construir(textos: dict) -> None:
     escribir(T[0].rows[2].cells[1], URL_APP)
 
     # --- 1.1 diagrama
-    imagen(T[1].rows[0].cells[1], "07_arquitectura_agente.png", 15.5, RAIZ / "docs" / "images" / "07_arquitectura_agente.png")
+    imagen_ancha(T[1].rows[0], "07_arquitectura_agente.png", 16.0, RAIZ / "docs" / "images" / "07_arquitectura_agente.png")
 
     # --- 1.2 tools
     filas = [
@@ -168,8 +194,8 @@ def construir(textos: dict) -> None:
     asegurar_filas(T[2], 5)
     for i, f in enumerate(filas, start=1):
         for j, txt in enumerate(f):
-            escribir(T[2].rows[i].cells[j], txt, tam=8, negrita=(j == 0))
-    imagen(T[3].rows[0].cells[1], "prueba_invoke.png", 15.5)
+            escribir(T[2].rows[i].cells[j], txt, tam=7 if j == 0 else 8, negrita=(j == 0))
+    imagen_ancha(T[3].rows[0], "prueba_invoke.png", 16.0)
 
     # --- 1.3 bucle y registro
     ejemplo = lineas_jsonl("agente_uso_tools.jsonl")
@@ -224,7 +250,7 @@ def construir(textos: dict) -> None:
         e = textos[clave]
         escribir(tabla.rows[0].cells[1], e["pregunta"], tam=8.5)
         escribir(tabla.rows[1].cells[1], e["tools"], tam=8, mono=True)
-        imagen(tabla.rows[2].cells[1], nombre_img, 15.0)
+        imagen_ancha(tabla.rows[2], nombre_img, 15.8)
         escribir(tabla.rows[3].cells[1], e["analisis"], tam=8.5)
 
     # --- 5. Ragas
@@ -266,10 +292,10 @@ def construir(textos: dict) -> None:
 
     # --- 8. interfaz
     escribir(T[17].rows[0].cells[1], URL_APP)
-    imagen(T[17].rows[1].cells[1], "ui_tools.png", 15.0)
-    imagen(T[17].rows[2].cells[1], "ui_fuentes.png", 15.0)
+    imagen_ancha(T[17].rows[1], "ui_tools.png", 15.8)
+    imagen_ancha(T[17].rows[2], "ui_fuentes.png", 15.8)
     if len(T[17].rows) >= 4:
-        imagen(T[17].rows[3].cells[1], "ui_fuera_alcance.png", 15.0)
+        imagen_ancha(T[17].rows[3], "ui_fuera_alcance.png", 15.8)
 
     # --- 9. reflexion
     escribir(T[18].rows[0].cells[1], textos["reflexion"], tam=9)
