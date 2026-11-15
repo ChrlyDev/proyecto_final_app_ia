@@ -80,18 +80,20 @@ def imagen(celda, nombre: str, ancho_cm: float = 11.0, ruta: Path | None = None)
         r.font.size, r.bold, r.font.color.rgb = Pt(9), True, ROJO
 
 
-def imagen_ancha(fila, nombre: str, ancho_cm: float = 15.8, ruta: Path | None = None) -> None:
-    """Combina las dos celdas de la fila para usar todo el ancho: etiqueta arriba e imagen debajo."""
+def imagen_ancha(fila, nombre, ancho_cm: float = 15.8, ruta: Path | None = None) -> None:
+    """Combina las dos celdas de la fila para usar todo el ancho: etiqueta arriba e imagen(es) debajo.
+    `nombre` puede ser un archivo o una lista (p. ej. fuentes de la base y fuentes web)."""
     etiqueta = fila.cells[0].text.strip()
     celda = fila.cells[0].merge(fila.cells[1])
     escribir(celda, etiqueta, tam=9, negrita=True)
-    p = celda.add_paragraph()
-    destino = ruta or (CAPT / nombre)
-    if destino.exists():
-        p.add_run().add_picture(str(destino), width=Cm(ancho_cm))
-    else:
-        r = p.add_run(f"[CAPTURA PENDIENTE: {nombre}]")
-        r.font.size, r.bold, r.font.color.rgb = Pt(9), True, ROJO
+    for n in (nombre if isinstance(nombre, list) else [nombre]):
+        p = celda.add_paragraph()
+        destino = ruta or (CAPT / n)
+        if destino.exists():
+            p.add_run().add_picture(str(destino), width=Cm(ancho_cm))
+        else:
+            r = p.add_run(f"[CAPTURA PENDIENTE: {n}]")
+            r.font.size, r.bold, r.font.color.rgb = Pt(9), True, ROJO
 
 
 def preparar_plantilla(d) -> None:
@@ -293,7 +295,7 @@ def construir(textos: dict) -> None:
     # --- 8. interfaz
     escribir(T[17].rows[0].cells[1], URL_APP)
     imagen_ancha(T[17].rows[1], "ui_tools.png", 15.8)
-    imagen_ancha(T[17].rows[2], "ui_fuentes.png", 15.8)
+    imagen_ancha(T[17].rows[2], ["ui_fuentes_base.png", "ui_fuentes_web.png"], 15.8)
     if len(T[17].rows) >= 4:
         imagen_ancha(T[17].rows[3], "ui_fuera_alcance.png", 15.8)
 
